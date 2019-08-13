@@ -50,16 +50,16 @@ namespace HaodaBit {
 
     const BYG_CHD_L = 2047
     const BYG_CHD_H = 4095
-	
-	
-	const TCS34725IntegrationTime = 0xEB
+
+
+    const TCS34725IntegrationTime = 0xEB
     const TCS34725Gain = 0x01
     const TCS34725_COMMAND_BIT = 0x80
     const TCS34725_ADDRESS = 0x29
-	
-	const N76E003AT20_ADDRESS = 0x52
-	const N76E003AT20_DATA1 = 0x16
-	const N76E003AT20_DATA2 = 0x08
+
+    const N76E003AT20_ADDRESS = 0x52
+    const N76E003AT20_DATA1 = 0x16
+    const N76E003AT20_DATA2 = 0x08
 
     // Auto-generated. Do not edit.
 
@@ -74,9 +74,9 @@ namespace HaodaBit {
         DigitalPin.P16
 
     ]
-	
-	
-	const PortAnalog = [
+
+
+    const PortAnalog = [
         AnalogPin.P0,
         AnalogPin.P1,
         AnalogPin.P2,
@@ -104,28 +104,20 @@ namespace HaodaBit {
         P16 = 5
 
     }
-	
-	
-	export enum Ports1 {
+
+
+    export enum Ports1 {
         P0 = 0,
         P1 = 1,
         P2 = 2
 
 
     }
-    const Ports2 = [
-        Pins.P0,
-        Pins.P1,
-        Pins.P2,
-        Pins.P8,
-        Pins.P12,
-        Pins.P16
 
-    ]
-	
 
-	
-	export enum linechoose {
+
+
+    export enum linechoose {
         //% block=R1
         R1 = 0x19,
         //% block=R2
@@ -135,8 +127,8 @@ namespace HaodaBit {
         //% block=L2
         L2 = 0x13
     }
-	
-	export enum linechooseAD {
+
+    export enum linechooseAD {
         //% block=R1
         R1 = 0x07,
         //% block=R2
@@ -146,8 +138,8 @@ namespace HaodaBit {
         //% block=L2
         L2 = 0x03
     }
-	
-	export enum linechoosedb {
+
+    export enum linechoosedb {
         //% block=R1
         R1 = 0x0f,
         //% block=R2
@@ -157,8 +149,8 @@ namespace HaodaBit {
         //% block=L2
         L2 = 0x0b
     }
-	
-	export enum PrevNext {
+
+    export enum PrevNext {
         //% block=play
         play = 0x0d,
         //% block=stop
@@ -168,8 +160,8 @@ namespace HaodaBit {
         //% block=prev
         prev = 0x01
     }
-	
-	export enum Creadcolor {
+
+    export enum Creadcolor {
         //% block=red
         RR = 0,
         //% block=green
@@ -177,19 +169,19 @@ namespace HaodaBit {
         //% block=blue
         BB = 2
     }
-	
+
     export enum encodingType {
         NEC
     }
-	
-	export enum BMP280_I2C_ADDRESS{
-    //% block="0x76"
-    ADDR_0x76 = 0x76,
-    //% block="0x77"
-    ADDR_0x77 = 0x77
-   }
-   
-   export enum Motors {
+
+    export enum BMP280_I2C_ADDRESS {
+        //% block="0x76"
+        ADDR_0x76 = 0x76,
+        //% block="0x77"
+        ADDR_0x77 = 0x77
+    }
+
+    export enum Motors {
         //%blockId=HaodaBit_motordriver_motor_one
         //% block="MA"
         MA = 0x1,
@@ -197,15 +189,15 @@ namespace HaodaBit {
         //% block="MB"
         MB = 0x2
     }
-	
-   export enum Dir {
+
+    export enum Dir {
         //% blockId="CW" block="CW"
         CW = 1,
         //% blockId="CCW" block="CCW"
         CCW = -1,
     }
-	
-	export enum Buttondd {
+
+    export enum Buttondd {
         //% block=0
         IR_BUTTON_0 = 0x4f,
         //% block=1
@@ -242,14 +234,12 @@ namespace HaodaBit {
         IR_BUTTON_POUND = 0x8f
 
     }
-
-
-	let distanceBuf = 0;
-	let alreadyInit = 0;
-	let dht11Temp = -1;
+    let distanceBuf = 0;
+    let alreadyInit = 0;
+    let dht11Temp = -1;
     let dht11Humi = -1;
-	let tcs34725Initialised = false
-	let tempHandler: Action;
+    let tcs34725Initialised = false
+    let tempHandler: Action;
     let send_init = false;
     let rec_init = false;
     let arr: number[] = []
@@ -261,16 +251,16 @@ namespace HaodaBit {
     let recPin = DigitalPin.P8
     let thereIsHandler = false
     arr = []
-	let irLed = AnalogPin.P16;
-	let pwmPeriod = 26;
+    let irLed = AnalogPin.P16;
+    let pwmPeriod = 26;
     pins.analogWritePin(irLed, 0);
     pins.analogSetPeriod(irLed, pwmPeriod);
-	let BMP280_I2C_ADDR = BMP280_I2C_ADDRESS.ADDR_0x76;
-	let initialized = false
-	
+    let BMP280_I2C_ADDR = BMP280_I2C_ADDRESS.ADDR_0x76;
+    let initialized = false
 
-	
-	function i2cWrite(addr: number, reg: number, value: number) {
+
+
+    function i2cWrite(addr: number, reg: number, value: number) {
         let buf = pins.createBuffer(2)
         buf[0] = reg
         buf[1] = value
@@ -318,16 +308,16 @@ namespace HaodaBit {
 
         return Math.floor(ret * 10 / 6 / 58);
     }
-	
-	
-	   /**
-     *  set the IR receiver pin.
-     */
+
+
+    /**
+  *  set the IR receiver pin.
+  */
     //% blockId=setREC_pin block="set IR receiver pin: %myPin" 
     //% weight=85 
-	//% group="红外" blockGap=8
+    //% group="红外" blockGap=8
     export function setREC_pin(myPin: Ports) {
-		let portaa = PortDigital[myPin]
+        let portaa = PortDigital[myPin]
         recPin = portaa;
         pins.setEvents(recPin, PinEventType.Pulse)
         pins.setPull(recPin, PinPullMode.PullUp)
@@ -340,8 +330,8 @@ namespace HaodaBit {
         control.onEvent(recPin, DAL.MICROBIT_PIN_EVENT_ON_TOUCH, tempHandler);
         rec_init = true;
     }
-	
-	 function resetReceiver() {
+
+    function resetReceiver() {
         arr = []
         received = false
     }
@@ -417,7 +407,7 @@ namespace HaodaBit {
      */
     //% blockId=onReceivedIR block="on IR message received" blockInlineInputs=true
     //% weight=70 
-	//% group="红外" blockGap=8
+    //% group="红外" blockGap=8
     export function onReceivedIR(handler: Action): void {
         tempHandler = handler
         thereIsHandler = true
@@ -429,25 +419,25 @@ namespace HaodaBit {
      */
     //% blockId=getMessage block="read IR"
     //% weight=60 
-	//% group="红外" blockGap=8
+    //% group="红外" blockGap=8
     export function getMessage(): number {
 
         return command1
     }
-	
+
 
     //% blockId=IR_KEY block="IR buttons| %readkey"
     //% weight=100
-	//% group="红外" blockGap=8
+    //% group="红外" blockGap=8
     export function key_read(readkey: Buttondd): number {
         return readkey;
     }
-	
-	
-	//% blockId=HaodaBit_mp3_connect block="MP3 init|port %port"
+
+
+    //% blockId=HaodaBit_mp3_connect block="MP3 init|port %port"
     //% weight=39
-	//% group="音乐" blockGap=8
-	
+    //% group="音乐" blockGap=8
+
     export function MP3Connect(port: Ports): void {
         let pin = PortSerial[port]
         // todo: fiber may freeze on steam reading
@@ -455,7 +445,7 @@ namespace HaodaBit {
     }
 
     //% blockId=HaodaBit_mp3_play block="MP3 |%pn"
-	//% weight=39
+    //% weight=39
     //% group="音乐" blockGap=8
     export function MP3Play(pn: PrevNext): void {
         let buf = pins.createBuffer(8);
@@ -506,13 +496,13 @@ namespace HaodaBit {
         buf[7] = 0xef;
         serial.writeBuffer(buf)
     }
-	
-	
-	//% blockId=HaodaBit_motor_servo block="Servo|%pin|degree|%degree"
+
+
+    //% blockId=HaodaBit_motor_servo block="Servo|%pin|degree|%degree"
     //% weight=100 blockGap=8
     //% degree.min=0 degree.max=180
     //% group="执行" name.fieldEditor="gridpicker" name.fieldOptions.columns=4
-	
+
     export function servo(pin: Ports, degree: number): void {
 
         let port = PortAnalog[pin]
@@ -520,8 +510,8 @@ namespace HaodaBit {
         let value = (0.5 + degree / 90) * 1000
         pins.servoSetPulse(port, value)
     }
-	
-	//% blockId=HaodaBit_LM35_server block="read lm35|port %pin"
+
+    //% blockId=HaodaBit_LM35_server block="read lm35|port %pin"
     //% weight=100
     //% group="传感器" blockGap=8
     export function server_lm35(pin: Ports1): number {
@@ -531,9 +521,9 @@ namespace HaodaBit {
         let value = (82.5 * vas) >> 8
         return value;
     }
-	
-	
-	function TCS34725_setIntegrationTime() {
+
+
+    function TCS34725_setIntegrationTime() {
         if (!tcs34725Initialised) { TCS34725_begin(); }
 
         /* Update the timing register */
@@ -615,7 +605,7 @@ namespace HaodaBit {
             return 0;
         }
     }
-	
+
 
 
     //% blockId=HaodaBit_TCS34725 block="read color|port %pn"
@@ -625,16 +615,16 @@ namespace HaodaBit {
         let num = TCS34725_readRGBC(pn);
         return num;
     }
-	
-	
+
+
     function transmitBit(highTime: number, lowTime: number): void {
         pins.analogWritePin(irLed, 512);
         control.waitMicros(highTime);
         pins.analogWritePin(irLed, 0);
         control.waitMicros(lowTime);
     }
-	
-	
+
+
 
     function encode(myCode: number, bits: number, trueHigh: number, trueLow: number, falseHigh: number, falseLow: number): void {
         const MESSAGE_BITS = bits;
@@ -684,38 +674,38 @@ namespace HaodaBit {
             default: sendNEC(message, times);
         }
     }
-	    
+
     /**
      *  set the infrared LED pin.
      */
     //% blockId=setIR_pin block="set IR LED pin: %port" 
     //% weight=90 
-	//% group="红外" blockGap=8
+    //% group="红外" blockGap=8
 
     export function setIR_pin(port: Ports) {
-		let portss = PortAnalog[port]
+        let portss = PortAnalog[port]
         irLed = portss;
         pins.analogWritePin(irLed, 0);
         pins.analogSetPeriod(irLed, pwmPeriod);
         send_init = true;
     }
-	
-	 /**
-     * send message from IR LED. You must set the message encoding type, send how many times, and the message.
-     */
+
+    /**
+    * send message from IR LED. You must set the message encoding type, send how many times, and the message.
+    */
     //% blockId=HaodaBit_sendMyMessage block="IR send message at: %msg"
     //% weight=100
-	//% group="红外" blockGap=8
-  export function sendMyMessage(msg: number): void {
+    //% group="红外" blockGap=8
+    export function sendMyMessage(msg: number): void {
         if (send_init) {
             //control.inBackground(() => {
-                sendMessage(msg, 1, encodingType.NEC);
+            sendMessage(msg, 1, encodingType.NEC);
             //})
         }
     }
-	
-	
-	function setreg(reg: number, dat: number): void {
+
+
+    function setreg(reg: number, dat: number): void {
         let buf = pins.createBuffer(2);
         buf[0] = reg;
         buf[1] = dat;
@@ -781,7 +771,7 @@ namespace HaodaBit {
      */
     //% blockId="BMP280_GET_PRESSURE" block="BMP280 get pressure"
     //% weight=80
-	//% group="传感器" blockGap=8
+    //% group="传感器" blockGap=8
     export function pressure(): number {
         get();
         return P;
@@ -792,28 +782,28 @@ namespace HaodaBit {
     */
     //% blockId="BMP280_GET_TEMPERATURE" block="BMP280 get temperature"
     //% weight=80
-	//% group="传感器" blockGap=8
+    //% group="传感器" blockGap=8
     export function temperature(): number {
         get();
         return T;
-    } 
+    }
 
     /**
      * power on
     */
     //% blockId="BMP280_POWER_ON" block="BMP280 power On"
     //% weight=80 
-	//% group="传感器" blockGap=8
+    //% group="传感器" blockGap=8
     export function PowerOn() {
         setreg(0xF4, 0x2F)
-    } 
+    }
 
     /**
      * power off
      */
     //% blockId="BMP280_POWER_OFF" block="BMP280 power Off"
     //% weight=80 
-	//% group="传感器" blockGap=8
+    //% group="传感器" blockGap=8
     export function PowerOff() {
         setreg(0xF4, 0)
     }
@@ -823,13 +813,13 @@ namespace HaodaBit {
      */
     //% blockId="BMP280_SET_ADDRESS" block="BMP280 set address %addr"
     //% weight=80
-	//% group="传感器" blockGap=8
+    //% group="传感器" blockGap=8
     export function Address(addr: BMP280_I2C_ADDRESS) {
         BMP280_I2C_ADDR = addr
     }
-	
-	
-	function MM32DDDD(): void {
+
+
+    function MM32DDDD(): void {
         i2cWrite(MM32_ADDRESS, MODE1, 0x00)
         setFreq(50);
         initialized = true
@@ -919,58 +909,59 @@ namespace HaodaBit {
             motorStop(idx);
         }
     }
-	
-	//% blockId="HaodaBit_set_height" block="set Tracer|%pn|height|%heights"
+
+    //% blockId="HaodaBit_set_height" block="set Tracer|%pn|height|%heights"
     //% weight=90
     //% group="传感器" blockGap=8
     export function Lineheight(pn: linechoosedb, heights: number): void {
-		
-		
-/**	
-		
-		
-		i2cWrite_1(N76E003AT20_ADDRESS, 0x03, N76E003AT20_DATA1, N76E003AT20_DATA2);
-		
-		i2cWrite_1(N76E003AT20_ADDRESS, 0x05, N76E003AT20_DATA1, N76E003AT20_DATA2);
 
-		i2cWrite_1(N76E003AT20_ADDRESS, 0x07, N76E003AT20_DATA1, N76E003AT20_DATA2);
 
-		i2cWrite_1(N76E003AT20_ADDRESS, 0x09, N76E003AT20_DATA1, N76E003AT20_DATA2);
+        /**	
+            	
+            	
+                i2cWrite_1(N76E003AT20_ADDRESS, 0x03, N76E003AT20_DATA1, N76E003AT20_DATA2);
+            	
+                i2cWrite_1(N76E003AT20_ADDRESS, 0x05, N76E003AT20_DATA1, N76E003AT20_DATA2);
+        
+                i2cWrite_1(N76E003AT20_ADDRESS, 0x07, N76E003AT20_DATA1, N76E003AT20_DATA2);
+        
+                i2cWrite_1(N76E003AT20_ADDRESS, 0x09, N76E003AT20_DATA1, N76E003AT20_DATA2);
+        
+                i2cWrite_1(N76E003AT20_ADDRESS, 0x13, N76E003AT20_DATA1, N76E003AT20_DATA2);
+        
+                i2cWrite_1(N76E003AT20_ADDRESS, 0x14, N76E003AT20_DATA1, N76E003AT20_DATA2);
+        
+                i2cWrite_1(N76E003AT20_ADDRESS, 0x19, N76E003AT20_DATA1, N76E003AT20_DATA2);
+        
+                i2cWrite_1(N76E003AT20_ADDRESS, 0x16, N76E003AT20_DATA1, N76E003AT20_DATA2);
+        */
 
-		i2cWrite_1(N76E003AT20_ADDRESS, 0x13, N76E003AT20_DATA1, N76E003AT20_DATA2);
 
-		i2cWrite_1(N76E003AT20_ADDRESS, 0x14, N76E003AT20_DATA1, N76E003AT20_DATA2);
 
-		i2cWrite_1(N76E003AT20_ADDRESS, 0x19, N76E003AT20_DATA1, N76E003AT20_DATA2);
-
-		i2cWrite_1(N76E003AT20_ADDRESS, 0x16, N76E003AT20_DATA1, N76E003AT20_DATA2);
-*/
-		
-	
-	
-		i2cWrite(N76E003AT20_ADDRESS, pn, heights);
+        i2cWrite(N76E003AT20_ADDRESS, pn, heights);
 
 
 
     }
-	
-	//% blockId="HaodaBit_read_linead" block="read Tracer|%li|touch black"
+
+    //% blockId="HaodaBit_read_linead" block="read Tracer|%li|touch black"
     //% weight=90
     //% group="传感器" blockGap=8
-	export function readlinead(li: linechooseAD): number { 
-	     let values = i2cRead(N76E003AT20_ADDRESS, li);
-		 return values;
+    export function readlinead(li: linechooseAD): number {
+        let values = i2cRead(N76E003AT20_ADDRESS, li);
+        return values;
 
-	}
-	
-	//% blockId="HaodaBit_read_line" block="Tracer|%li|touch black or not"
+    }
+
+    //% blockId="HaodaBit_read_line" block="Tracer|%li|touch black or not"
     //% weight=90
     //% group="传感器" blockGap=8
-	export function readline(li: linechoose): number { 
-	     let values = i2cRead(N76E003AT20_ADDRESS, li);
-		 return values;
+    export function readline(li: linechoose): number {
+        let values = i2cRead(N76E003AT20_ADDRESS, li);
+        return values;
 
-	}
+    }
+
 
 
 }
