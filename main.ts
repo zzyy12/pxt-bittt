@@ -196,7 +196,7 @@ namespace HaodaBit {
     /**
     * Different modes for RGB or RGB+W NeoPixel strips
     */
-    enum NeoPixelMode {
+    export enum NeoPixelMode {
     //% block="RGB (GRB format)"
     RGB = 0,
     //% block="RGB+W"
