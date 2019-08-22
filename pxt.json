@@ -8,7 +8,6 @@
     },
     "files": [
         "main.ts",
-		"sendBuffer.asm",
 		"_locales/zh/HaodaBit-strings.json"
     ],
     "testFiles": [
