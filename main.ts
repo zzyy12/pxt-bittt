@@ -193,6 +193,18 @@ namespace HaodaBit {
     Black = 0x000000
 }
 
+    /**
+    * Different modes for RGB or RGB+W NeoPixel strips
+    */
+    enum NeoPixelMode {
+    //% block="RGB (GRB format)"
+    RGB = 0,
+    //% block="RGB+W"
+    RGBW = 1,
+    //% block="RGB (RGB format)"
+    RGB_RGB = 2
+}
+
     export enum encodingType {
         NEC
     }
