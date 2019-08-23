@@ -169,6 +169,17 @@ namespace HaodaBit {
         //% block=blue
         BB = 2
     }
+	/**
+     * Different modes for RGB or RGB+W NeoPixel strips
+     */
+    enum NeoPixelMode {
+    //% block="RGB (GRB format)"
+    RGB = 0,
+    //% block="RGB+W"
+    RGBW = 1,
+    //% block="RGB (RGB format)"
+    RGB_RGB = 2
+}
 	
 	export enum NeoPixelColors {
     //% block=red
@@ -1200,18 +1211,18 @@ namespace HaodaBit {
      * @param pin the pin where the neopixel is connected.
      * @param numleds number of leds in the strip, eg: 24,30,60,64
      */
-    //% blockId="neopixel_create" block="NeoPixel at pin %pin|with %numleds|leds"
+    //% blockId="neopixel_create" block="NeoPixel at pin %pin|with %numleds|leds as %mode"
     //% weight=90 blockGap=8
     //% group="RGB"
     //% trackArgs=0,2
     //% blockSetVariable=strip
-    export function create(pin: DigitalPin, numleds: number): Strip {
+    export function create(pin: DigitalPin, numleds: number, mode: NeoPixelMode): Strip {
         let strip = new Strip();
-        let stride = 0 === NeoPixelMode.RGBW ? 4 : 3;
+        let stride = mode === NeoPixelMode.RGBW ? 4 : 3;
         strip.buf = pins.createBuffer(numleds * stride);
         strip.start = 0;
         strip._length = numleds;
-        strip._mode = 0;
+        strip._mode = mode;
         strip._matrixWidth = 0;
         strip.setBrightness(255)
         strip.setPin(pin)
