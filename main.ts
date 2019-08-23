@@ -171,7 +171,7 @@ namespace HaodaBit {
     }
 	/**
      * Different modes for RGB or RGB+W NeoPixel strips
-    
+     */
     export enum NeoPixelMode {
     //% block="RGB (GRB format)"
     RGB = 0,
@@ -180,7 +180,7 @@ namespace HaodaBit {
     //% block="RGB (RGB format)"
     RGB_RGB = 2
 }
-	 */
+	
 	export enum NeoPixelColors {
     //% block=red
     Red = 0xFF0000,
@@ -1012,6 +1012,7 @@ namespace HaodaBit {
         brightness: number;
         start: number; // start offset in LED strip
         _length: number; // number of LEDs
+        _mode: NeoPixelMode;
         _matrixWidth: number; // number of leds in a matrix - if any
         _matrixChain: number; // the connection type of matrix chain
         _matrixRotation: number; // the rotation type of matrix
@@ -1066,7 +1067,7 @@ namespace HaodaBit {
         //% weight=76
         //% group="RGB"
         clear(): void {
-            const stride = this._mode === 1 ? 4 : 3;
+            const stride = this._mode === NeoPixelMode.RGBW ? 4 : 3;
             this.buf.fill(0, this.start * stride, this._length * stride);
         }
 
@@ -1124,7 +1125,7 @@ namespace HaodaBit {
       
 
         private setBufferRGB(offset: number, red: number, green: number, blue: number): void {
-            if (this._mode === 2) {
+            if (this._mode === NeoPixelMode.RGB_RGB) {
                 this.buf[offset + 0] = red;
                 this.buf[offset + 1] = green;
             } else {
@@ -1146,13 +1147,13 @@ namespace HaodaBit {
                 blue = (blue * br) >> 8;
             }
             const end = this.start + this._length;
-            const stride = this._mode === 1 ? 4 : 3;
+            const stride = this._mode === NeoPixelMode.RGBW ? 4 : 3;
             for (let i = this.start; i < end; ++i) {
                 this.setBufferRGB(i * stride, red, green, blue)
             }
         }
         private setAllW(white: number) {
-            if (this._mode !== 1)
+            if (this._mode !== NeoPixelMode.RGBW)
                 return;
 
             let br = this.brightness;
@@ -1171,7 +1172,7 @@ namespace HaodaBit {
                 || pixeloffset >= this._length)
                 return;
 
-            let stride = this._mode === 1 ? 4 : 3;
+            let stride = this._mode === NeoPixelMode.RGBW ? 4 : 3;
             pixeloffset = (pixeloffset + this.start) * stride;
 
             let red = unpackR(rgb);
@@ -1187,7 +1188,7 @@ namespace HaodaBit {
             this.setBufferRGB(pixeloffset, red, green, blue)
         }
         private setPixelW(pixeloffset: number, white: number): void {
-            if (this._mode !== 1)
+            if (this._mode !== NeoPixelMode.RGBW)
                 return;
 
             if (pixeloffset < 0
@@ -1215,9 +1216,9 @@ namespace HaodaBit {
     //% group="RGB"
     //% trackArgs=0,2
     //% blockSetVariable=strip
-    export function create(pin: DigitalPin, numleds: number): Strip {
+    export function create(pin: DigitalPin, numleds: number, mode: 0): Strip {
         let strip = new Strip();
-        let stride = 0 ===1 ? 4 : 3;
+        let stride = 0 === NeoPixelMode.RGBW ? 4 : 3;
         strip.buf = pins.createBuffer(numleds * stride);
         strip.start = 0;
         strip._length = numleds;
