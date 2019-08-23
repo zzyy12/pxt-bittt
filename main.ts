@@ -1216,13 +1216,14 @@ namespace HaodaBit {
     //% group="RGB"
     //% trackArgs=0,2
     //% blockSetVariable=strip
-    export function create(pin: DigitalPin, numleds: number, mode: 0): Strip {
+    export function create(pin: DigitalPin, numleds: number): Strip {
+		let mode = 0
         let strip = new Strip();
-        let stride = 0 === NeoPixelMode.RGBW ? 4 : 3;
+        let stride = mode === NeoPixelMode.RGBW ? 4 : 3;
         strip.buf = pins.createBuffer(numleds * stride);
         strip.start = 0;
         strip._length = numleds;
-        strip._mode = 0;
+        strip._mode = mode;
         strip._matrixWidth = 0;
         strip.setBrightness(255)
         strip.setPin(pin)
