@@ -1044,7 +1044,7 @@ namespace HaodaBit {
         //% weight=80
         //% group="RGB" 
         setPixelColor(pixeloffset: number, rgb: number): void {
-		    let pixelrgb = pixeloffset-1;
+		    let pixelrgb = pixeloffset - 1;
             this.setPixelRGB(pixelrgb >> 0, rgb >> 0);
         }
 
@@ -1070,6 +1070,7 @@ namespace HaodaBit {
         clear(): void {
             const stride = this._mode === NeoPixelMode.RGBW ? 4 : 3;
             this.buf.fill(0, this.start * stride, this._length * stride);
+			sendBuffer(this.buf, this.pin);
         }
 
 
@@ -1096,8 +1097,9 @@ namespace HaodaBit {
         //% blockId="neopixel_range" block="%strip|range from %start|with %length|leds" blockGap=8
         //% group="RGB"
         //% blockSetVariable=range
-        range(start: number, length: number): Strip {
-            start = start >> 0;
+        range(start: number, length: number): Strip {\
+		    let pixelnums = start - 1;
+            pixelnums = pixelnums >> 0;
             length = length >> 0;
             let strip = new Strip();
             strip.buf = this.buf;
