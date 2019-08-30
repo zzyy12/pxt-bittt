@@ -1097,9 +1097,9 @@ namespace HaodaBit {
         //% blockId="neopixel_range" block="%strip|range from %start|with %length|leds" blockGap=8
         //% group="RGB"
         //% blockSetVariable=range
-        range(start: number, length: number): Strip {\
-		    let pixelnums = start - 1;
-            pixelnums = pixelnums >> 0;
+        range(pixelnums: number, length: number): Strip {\
+		    let start = pixelnums - 1;
+            start = start >> 0;
             length = length >> 0;
             let strip = new Strip();
             strip.buf = this.buf;
