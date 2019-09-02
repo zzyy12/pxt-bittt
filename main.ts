@@ -1119,7 +1119,8 @@ namespace HaodaBit {
         //% weight=10
         //% parts="neopixel" 
 		
-        setPin(pin: DigitalPin): void {
+        setPin(port: Ports): void {
+			let pin = PortDigital[port];
             this.pin = pin;
             pins.digitalWritePin(this.pin, 0);
             // don't yield to avoid races on initialization
@@ -1219,7 +1220,8 @@ namespace HaodaBit {
     //% group="RGB"
     //% trackArgs=0,2
     //% blockSetVariable=strip
-    export function create(pin: DigitalPin, numleds: number): Strip {
+    export function create(port: Ports, numleds: number): Strip {
+		let pin = PortDigital[port];
 		let mode = 0
         let strip = new Strip();
         let stride = mode === NeoPixelMode.RGBW ? 4 : 3;
