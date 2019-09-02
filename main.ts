@@ -1119,8 +1119,7 @@ namespace HaodaBit {
         //% weight=10
         //% parts="neopixel" 
 		
-        setPin(port: Ports): void {
-			let pin = PortDigital[port];
+        setPin(pin: DigitalPin): void {
             this.pin = pin;
             pins.digitalWritePin(this.pin, 0);
             // don't yield to avoid races on initialization
